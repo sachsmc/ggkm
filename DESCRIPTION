@@ -1,0 +1,16 @@
+Package: ggkm
+Type: Package
+Title: Survival Plots for ggplot2
+Version: 0.1
+Date: 2015-10-09
+Author: Michael C Sachs
+Maintainer: Michael C Sachs <sachsmc@gmail.com>
+Description: Plot Kaplan-Meier Curves using ggplot2.
+License: MIT + file LICENSE
+LazyData: TRUE
+Depends:
+  ggplot2,
+  survival
+Imports:
+  grid,
+  scales

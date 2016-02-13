@@ -56,10 +56,10 @@ GeomKm <- ggproto("GeomKm", Geom,
 
 geom_km <- function(mapping = NULL, data = NULL, stat = "km",
                      position = "identity", show.legend = NA,
-                     inherit.aes = TRUE, ...) {
+                     inherit.aes = TRUE, na.rm = TRUE, ...) {
   layer(
     geom = GeomKm, mapping = mapping, data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(...)
+    params = list(na.rm = TRUE, ...)
   )
 }

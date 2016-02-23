@@ -12,9 +12,9 @@ devtools::install_github("sachsmc/ggkm")
 ## Basic usage
 
 ```r
-ggplot(lung, aes(x = time, status = status)) + geom_km()
-ggplot(lung, aes(x = time, status = status)) + geom_km() + facet_wrap(~ sex)
-ggplot(lung, aes(x = time, status = status, color = factor(sex))) + geom_km()
+ggplot(lung, aes(time = time, status = status)) + geom_km()
+ggplot(lung, aes(time = time, status = status)) + geom_km() + facet_wrap(~ sex)
+ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km()
 ```
 
 # Acknowledgements

@@ -6,7 +6,7 @@ StatKm <- ggproto("StatKm", Stat,
 
   compute_group = function(data, scales, se = TRUE, trans = "identity", ...) {
 
-    sf <- survfit(Surv(data$x, data$status) ~ 1, se.fit = se, ...)
+    sf <- survfit(Surv(data$time, data$status) ~ 1, se.fit = se, ...)
     trans <- scales::as.trans(trans)$trans
     x <- sf$time
     y <- trans(sf$surv)
@@ -26,7 +26,7 @@ StatKm <- ggproto("StatKm", Stat,
         ymax <- trans(sf$upper)
 
       }
-      df.out <- data.frame(x = x, survival = y,
+      df.out <- data.frame(time = x, survival = y,
                            ymin = ymin,
                            ymax = ymax,
                            se = sf$std.err)
@@ -36,8 +36,8 @@ StatKm <- ggproto("StatKm", Stat,
 
   },
 
-  default_aes = aes(y = ..survival..),
-  required_aes = c("x", "status")
+  default_aes = aes(y = ..survival.., x = ..time..),
+  required_aes = c("time", "status")
 
 
 )
@@ -49,8 +49,8 @@ StatKm <- ggproto("StatKm", Stat,
 #' \code{stat_km} understands the following aesthetics (required aesthetics
 #' are in bold):
 #' \itemize{
-#'   \item \strong{\code{x}} The survival/censoring times.
-#'   \item \strong{\code{status}} Censoring indicators, see \link[survival]{Surv}
+#'   \item \strong{\code{time}} The survival times
+#'   \item \strong{\code{status}} The censoring indicator, see \link[survival]{Surv} for more information.
 #'   \item \code{alpha}
 #'   \item \code{color}
 #'   \item \code{linetype}
@@ -86,7 +86,7 @@ StatKm <- ggproto("StatKm", Stat,
 #'
 #' ## Examples illustrating the options passed to survfit.formula
 #'
-#' p1 <- ggplot(df, aes(x = time, status = status))
+#' p1 <- ggplot(df, aes(x = Surv(time, status)))
 #' p1 + stat_km(conf.int = .99)
 #' p1 + stat_km(trans = "cumhaz")
 #' # cloglog plots also log transform the time axis

@@ -60,6 +60,6 @@ geom_km <- function(mapping = NULL, data = NULL, stat = "km",
   layer(
     geom = GeomKm, mapping = mapping, data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = TRUE, ...)
+    params = list(na.rm = na.rm, ...)
   )
 }

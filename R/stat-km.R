@@ -15,22 +15,18 @@ StatKm <- ggproto("StatKm", Stat,
 
 
     if(se){
-      if(!is.null(scales$y)){
 
-        ymin <- scale_transform(scales$y, trans(sf$lower))
-        ymax <- scale_transform(scales$y, trans(sf$upper))
+      ymin <- trans(sf$lower)
+      ymax <- trans(sf$upper)
 
-      } else {
-
-        ymin <- trans(sf$lower)
-        ymax <- trans(sf$upper)
-
-      }
       df.out <- data.frame(time = x, survival = y,
+                           n.risk = sf$n.risk,
+                           n.censor = sf$n.censor, n.event = sf$n.event,
                            ymin = ymin,
                            ymax = ymax,
                            se = sf$std.err)
-    } else df.out <- data.frame(x = x, survival = y)
+    } else df.out <- data.frame(x = x, survival = y, n.risk = sf$n.risk,
+                                n.censor = sf$n.censor, n.event = sf$n.event)
 
     df.out
 

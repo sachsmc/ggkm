@@ -25,7 +25,7 @@ StatKm <- ggproto("StatKm", Stat,
                            ymin = ymin,
                            ymax = ymax,
                            se = sf$std.err)
-    } else df.out <- data.frame(x = x, survival = y, n.risk = sf$n.risk,
+    } else df.out <- data.frame(time = x, survival = y, n.risk = sf$n.risk,
                                 n.censor = sf$n.censor, n.event = sf$n.event)
 
     df.out

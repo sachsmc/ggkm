@@ -9,6 +9,10 @@ StatKm <- ggproto("StatKm", Stat,
     sf <- survfit(Surv(data$time, data$status) ~ 1, se.fit = se, ...)
     trans <- scales::as.trans(trans)$trans
     x <- sf$time
+    if(is.null(sf$surv) || length(sf$surv) == 1){
+      x <- rep(sf$time, 2)
+      sf$surv <- rep(1, length(x))
+    }
     y <- trans(sf$surv)
 
     se <- all(exists("upper", where = sf), exists("lower", where = sf))
@@ -25,7 +29,7 @@ StatKm <- ggproto("StatKm", Stat,
                            ymin = ymin,
                            ymax = ymax,
                            se = sf$std.err)
-    } else df.out <- data.frame(x = x, survival = y, n.risk = sf$n.risk,
+    } else df.out <- data.frame(time = x, survival = y, n.risk = sf$n.risk,
                                 n.censor = sf$n.censor, n.event = sf$n.event)
 
     df.out

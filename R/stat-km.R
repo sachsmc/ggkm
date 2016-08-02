@@ -34,6 +34,11 @@ StatKm <- ggproto("StatKm", Stat,
                            ymax = maxstep$y)
     } else df.out <- data.frame(time = step$x, survival = step$y)
 
+    sf.df <- data.frame(time = sf$time,
+               n.risk = sf$n.risk,
+               n.censor = sf$n.censor,
+               n.event = sf$n.event)
+
     df.out
 
   },

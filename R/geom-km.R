@@ -18,12 +18,12 @@ GeomKm <- ggproto("GeomKm", Geom,
 
                     grid::gList(
                       if (has_ribbon(data)) GeomRibbon$draw_group(ribbon, scales, coordinates),
-                      GeomStep$draw_panel(path, scales, coordinates)
+                      GeomPath$draw_panel(path, scales, coordinates)
                     )
                   },
 
                   required_aes = c("x", "y"),
-                  default_aes = aes(colour="black", fill="grey60", size=.75, linetype=1, weight=1, alpha=0.4),
+                  default_aes = aes(colour="black", fill="grey60", size=.75, linetype=1, weight=1, alpha=0.4, direction = "hv"),
 
                   draw_key = draw_key_smooth
 

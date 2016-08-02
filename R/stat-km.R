@@ -4,33 +4,35 @@
 
 StatKm <- ggproto("StatKm", Stat,
 
-  compute_group = function(data, scales, se = TRUE, trans = "identity", ...) {
+  compute_group = function(data, scales, se = TRUE, trans = "identity", firstx = 0, firsty = 1, ...) {
 
     sf <- survfit(Surv(data$time, data$status) ~ 1, se.fit = se, ...)
     trans <- scales::as.trans(trans)$trans
-    x <- sf$time
-    if(is.null(sf$surv) || length(sf$surv) == 1){
+    #x <- sf$time
+    if(is.null(sf$surv)) {
       x <- rep(sf$time, 2)
       sf$surv <- rep(1, length(x))
     }
-    y <- trans(sf$surv)
+
+    x <- c(firstx, sf$time)
+    y <- trans(c(firsty, sf$surv))
+
+    step <- dostep(x, y)
 
     se <- all(exists("upper", where = sf), exists("lower", where = sf))
 
-
     if(se){
 
-      ymin <- trans(sf$lower)
-      ymax <- trans(sf$upper)
+      ymin <- trans(c(1, sf$lower))
+      ymax <- trans(c(1, sf$upper))
 
-      df.out <- data.frame(time = x, survival = y,
-                           n.risk = sf$n.risk,
-                           n.censor = sf$n.censor, n.event = sf$n.event,
-                           ymin = ymin,
-                           ymax = ymax,
-                           se = sf$std.err)
-    } else df.out <- data.frame(time = x, survival = y, n.risk = sf$n.risk,
-                                n.censor = sf$n.censor, n.event = sf$n.event)
+      minstep <- dostep(x, ymin, yfix = y)
+      maxstep <- dostep(x, ymax, yfix = y)
+
+      df.out <- data.frame(time = step$x, survival = step$y,
+                           ymin = minstep$y,
+                           ymax = maxstep$y)
+    } else df.out <- data.frame(time = step$x, survival = step$y)
 
     df.out
 
@@ -63,6 +65,8 @@ StatKm <- ggproto("StatKm", Stat,
 #' @param trans Transformation to apply to the survival probabilities. Defaults
 #'   to "identity". Other options include "event", "cumhaz", "cloglog", or
 #'   define your own using \link{trans_new}.
+#' @param xstart,ystart the starting point for the survival curves. By default,
+#'   the plot program obeys tradition by having the plot start at (0,1).
 #' @param ... Other arguments passed to \code{survival::survfit.formula}
 #' @return a data.frame with additional columns: \item{x}{x in data}
 #'   \item{y}{Kaplan-Meier Survival Estimate at x} \item{ymin}{Lower confidence
@@ -169,3 +173,39 @@ cloglog_trans <- function(){
             domain = c(-Inf, Inf) ## The domain over which the transformation is valued
   )
 }
+
+
+dostep <- function(x, y, yfix = NULL) {
+  keep <- is.finite(x) & is.finite(y)
+  if (!any(keep))
+    return()
+  if (!all(keep)) {
+    x <- x[keep]
+    y <- y[keep]
+  }
+  n <- length(x)
+  if (n == 1)
+    list(x = x, y = y)
+  else if (n == 2)
+    list(x = x[c(1, 2, 2)], y = y[c(1, 1, 2)])
+  else {
+    temp <- rle(y)$lengths
+    if(!is.null(yfix)) {
+      temp2 <- rle(yfix)$lengths
+      if(length(temp2) > length(temp)) temp <- temp2
+    }
+
+    drops <- 1 + cumsum(temp[-length(temp)])
+    if (n %in% drops) {
+      xrep <- c(x[1], rep(x[drops], each = 2))
+      yrep <- rep(y[c(1, drops)], c(rep(2, length(drops)),
+                                    1))
+    }
+    else {
+      xrep <- c(x[1], rep(x[drops], each = 2), x[n])
+      yrep <- c(rep(y[c(1, drops)], each = 2))
+    }
+    list(x = xrep, y = yrep)
+  }
+}
+

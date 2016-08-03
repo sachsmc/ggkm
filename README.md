@@ -4,10 +4,9 @@ Calculate and Display Kaplan Meier Curves using ggplot2
 Installation
 ------------
 
-This version of the package is not on CRAN. It also requires the
-development version of ggplot2. It can be installed with
+This version of the package is not on CRAN. It can be installed with
 
-    devtools::install_github("hadley/ggplot2")
+    install.packages("ggplot2")
     devtools::install_github("sachsmc/ggkm")
 
 Basic usage
@@ -23,31 +22,31 @@ Basic usage
 
     ggplot(lung, aes(time = time, status = status)) + geom_km()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)<!-- -->
+![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
 
     ggplot(lung, aes(time = time, status = status)) + geom_km() + facet_wrap(~ sex)
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-2.png)<!-- -->
+![](README_files/figure-markdown_strict/unnamed-chunk-1-2.png)
 
     ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-3.png)<!-- -->
+![](README_files/figure-markdown_strict/unnamed-chunk-1-3.png)
 
     ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-4.png)<!-- -->
+![](README_files/figure-markdown_strict/unnamed-chunk-1-4.png)
 
     ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks(shape = 1)
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-5.png)<!-- -->
+![](README_files/figure-markdown_strict/unnamed-chunk-1-5.png)
 
     ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-6.png)<!-- -->
+![](README_files/figure-markdown_strict/unnamed-chunk-1-6.png)
 
     ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "cumhaz") + geom_kmticks(trans = "cumhaz") + ylab("Cumulative hazard")
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-7.png)<!-- -->
+![](README_files/figure-markdown_strict/unnamed-chunk-1-7.png)
 
 Acknowledgements
 ================

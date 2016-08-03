@@ -6,10 +6,10 @@ output: md_document
 
 ## Installation
 
-This version of the package is not on CRAN. It also requires the development version of ggplot2. It can be installed with
+This version of the package is not on CRAN. It can be installed with
 
 ```{r instcran, eval = FALSE}
-devtools::install_github("hadley/ggplot2")
+install.packages("ggplot2")
 devtools::install_github("sachsmc/ggkm")
 ```
 

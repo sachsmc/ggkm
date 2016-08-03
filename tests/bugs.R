@@ -22,8 +22,12 @@ ggplot(lung, aes(time = time, status = status,
   geom_km(se = TRUE)
 
 
-+ stat_km(geom="ribbon",alpha=0.1,color="black")
+ggplot(lung, aes(y = time, x = age, color = as.factor(ph.ecog))) + geom_point()
 
+ggplot(lung, aes(time = time, status = ifelse(
+  status == 2,1,0),col=as.factor(ph.ecog ),fill=as.factor(ph.ecog ))) +
+  geom_km(fill="transparent")+ stat_km(geom="ribbon",alpha=0.1,color="black")+ # this to make the legend include the fill
+  geom_kmticks()
 
 sf3 <- survfit(Surv(time, ifelse(status == 2, 1, 0)) ~ as.factor(ph.ecog), data = lung)
 }

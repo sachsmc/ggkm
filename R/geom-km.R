@@ -119,7 +119,7 @@ geom_km <- function(mapping = NULL, data = NULL, stat = "km",
 #' }
 #'
 #' @inheritParams ggplot2::geom_point
-#' @seealso The default stat for this geom is \code{\link{stat_km}} see
+#' @seealso The default stat for this geom is \code{\link{stat_kmticks}} see
 #'   that documentation for more options to control the underlying statistical transformation.
 #' @export
 #' @examples
@@ -127,7 +127,7 @@ geom_km <- function(mapping = NULL, data = NULL, stat = "km",
 #' df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
 #' ggplot(df, aes(x = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
 
-geom_kmticks <- function(mapping = NULL, data = NULL, stat = "km",
+geom_kmticks <- function(mapping = NULL, data = NULL, stat = "kmticks",
                     position = "identity", show.legend = NA,
                     inherit.aes = TRUE, na.rm = TRUE, ...) {
   layer(

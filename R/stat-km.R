@@ -34,11 +34,6 @@ StatKm <- ggproto("StatKm", Stat,
                            ymax = maxstep$y)
     } else df.out <- data.frame(time = step$x, survival = step$y)
 
-    sf.df <- data.frame(time = sf$time,
-               n.risk = sf$n.risk,
-               n.censor = sf$n.censor,
-               n.event = sf$n.event)
-
     df.out
 
   },
@@ -48,6 +43,10 @@ StatKm <- ggproto("StatKm", Stat,
 
 
 )
+
+## need to create a different stat for kmticks
+
+
 
 
 #' Adds a Kaplan Meier Estimate of Survival
@@ -120,6 +119,96 @@ stat_km <- function(mapping = NULL, data = NULL, geom = "km",
   )
 
 }
+
+
+
+
+
+#' @rdname stat_kmticks
+#' @export
+
+StatKmticks <- ggproto("StatKmticks", Stat,
+
+                  compute_group = function(data, scales, trans = "identity", ...) {
+
+                    sf <- survfit(Surv(data$time, data$status) ~ 1, se.fit = FALSE, ...)
+                    trans <- scales::as.trans(trans)$trans
+
+                    sf.df <- data.frame(time = sf$time,
+                                        survival = trans(sf$surv),
+                                        n.risk = sf$n.risk,
+                                        n.censor = sf$n.censor,
+                                        n.event = sf$n.event)
+
+                    sf.df
+
+                  },
+
+                  default_aes = aes(y = ..survival.., x = ..time..),
+                  required_aes = c("time", "status")
+
+
+)
+
+
+
+#' Adds tick marks to a Kaplan Meier Estimate of Survival
+#'
+#' @section Aesthetics:
+#' \code{stat_kmticks} understands the following aesthetics (required aesthetics
+#' are in bold):
+#' \itemize{
+#'   \item \strong{\code{time}} The survival times
+#'   \item \strong{\code{status}} The censoring indicator, see \link[survival]{Surv} for more information.
+#'   \item \code{alpha}
+#'   \item \code{color}
+#'   \item \code{linetype}
+#'   \item \code{size}
+#' }
+#'
+#' @seealso \link{stat_km}
+#' @inheritParams ggplot2::stat_identity
+#' @param trans Transformation to apply to the survival probabilities. Defaults
+#'   to "identity". Other options include "event", "cumhaz", "cloglog", or
+#'   define your own using \link{trans_new}.
+#' @param ... Other arguments passed to \code{survival::survfit.formula}
+#' @return a data.frame with additional columns: \item{x}{x in data}
+#'   \item{y}{Kaplan-Meier Survival Estimate at x}
+#' @export
+#'
+#' @details
+#'
+#' This stat is for computing the tick marks for a Kaplan-Meier survival estimate for
+#' right-censored data. The tick marks will appear at each censoring time which is also
+#' not a death time, which is the default for \link{plot.survfit}.
+#' It requires the aesthetic mapping \code{x} for the
+#' observation times and \code{status} which indicates the event status,
+#' normally 0=alive, 1=dead. Other choices are TRUE/FALSE (TRUE = death) or 1/2
+#' (2=death).
+#'
+#' @examples
+#' sex <- rbinom(250, 1, .5)
+#' df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
+#' ggplot(df, aes(time, status = status, color = factor(sex))) +
+#'  stat_km() + stat_kmticks()
+#'
+
+
+stat_kmticks <- function(mapping = NULL, data = NULL, geom = "kmticks",
+                    position = "identity", show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(
+    stat = StatKmticks,
+    data = data,
+    mapping = mapping,
+    geom = geom,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(...)
+  )
+
+}
+
 
 
 

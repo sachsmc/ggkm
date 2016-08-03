@@ -4,7 +4,7 @@
 \alias{geom_kmticks}
 \title{Add tick marks to a Kaplan-Meier survival curve}
 \usage{
-geom_kmticks(mapping = NULL, data = NULL, stat = "km",
+geom_kmticks(mapping = NULL, data = NULL, stat = "kmticks",
   position = "identity", show.legend = NA, inherit.aes = TRUE,
   na.rm = TRUE, ...)
 }
@@ -74,7 +74,7 @@ df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75
 ggplot(df, aes(x = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
 }
 \seealso{
-The default stat for this geom is \code{\link{stat_km}} see
+The default stat for this geom is \code{\link{stat_kmticks}} see
   that documentation for more options to control the underlying statistical transformation.
 }
 

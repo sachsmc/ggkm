@@ -2,6 +2,8 @@
 
 export(GeomKm)
 export(StatKm)
+export(StatKmticks)
 export(geom_km)
 export(geom_kmticks)
 export(stat_km)
+export(stat_kmticks)

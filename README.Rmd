@@ -20,12 +20,39 @@ library(ggkm)
 ggplot(lung, aes(time = time, status = status)) + geom_km()
 ggplot(lung, aes(time = time, status = status)) + geom_km() + facet_wrap(~ sex)
 ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km()
+```
 
+
+## Adding Tick marks
+
+Tick marks are displayed at censoring times that are also not event times
+
+```{r}
 ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks()
 ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks(shape = 1)
-ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
+``` 
 
-ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "cumhaz") + geom_kmticks(trans = "cumhaz") + ylab("Cumulative hazard")
+## Different style ribbons
+```{r}
+ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
+ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + geom_km() + geom_kmticks()
+
+ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + 
+  geom_km(alpha = .1) + stat_km(geom = "ribbon", alpha = .1, color = "black") + geom_kmticks()
+```
+
+## Tranformations
+
+```{r}
+ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "cumhaz") + 
+  geom_kmticks(trans = "cumhaz") + ylab("Cumulative hazard")
+ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "event") + 
+  geom_kmticks(trans = "event") + ylab("Cumulative Events (CDF)")
+
+## proportional hazards -> parallel lines on cloglog scale
+ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km(trans = "cloglog") + 
+  geom_kmticks(trans = "cloglog") + ylab("Complementary Log-Log")
+
 ```
 
 # Acknowledgements

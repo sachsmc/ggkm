@@ -32,21 +32,57 @@ Basic usage
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-1-3.png)
 
+Adding Tick marks
+-----------------
+
+Tick marks are displayed at censoring times that are also not event
+times
+
     ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-4.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
 
     ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks(shape = 1)
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-5.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-2-2.png)
+
+Different style ribbons
+-----------------------
 
     ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-6.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-3-1.png)
 
-    ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "cumhaz") + geom_kmticks(trans = "cumhaz") + ylab("Cumulative hazard")
+    ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + geom_km() + geom_kmticks()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-7.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-3-2.png)
+
+    ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + 
+      geom_km(alpha = .1) + stat_km(geom = "ribbon", alpha = .1, color = "black") + geom_kmticks()
+
+![](README_files/figure-markdown_strict/unnamed-chunk-3-3.png)
+
+Tranformations
+--------------
+
+    ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "cumhaz") + 
+      geom_kmticks(trans = "cumhaz") + ylab("Cumulative hazard")
+
+![](README_files/figure-markdown_strict/unnamed-chunk-4-1.png)
+
+    ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "event") + 
+      geom_kmticks(trans = "event") + ylab("Cumulative Events (CDF)")
+
+![](README_files/figure-markdown_strict/unnamed-chunk-4-2.png)
+
+    ## proportional hazards -> parallel lines on cloglog scale
+    ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km(trans = "cloglog") + 
+      geom_kmticks(trans = "cloglog") + ylab("Complementary Log-Log")
+
+    ## Warning: Computation failed in `stat_km()`:
+    ## arguments imply differing number of rows: 198, 200, 199
+
+![](README_files/figure-markdown_strict/unnamed-chunk-4-3.png)
 
 Acknowledgements
 ================

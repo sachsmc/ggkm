@@ -285,7 +285,8 @@ dostep <- function(x, y, yfix = NULL) {
   else {
     temp <- rle(y)$lengths
     if(!is.null(yfix)) {
-      temp2 <- rle(yfix)$lengths
+      keep <- is.finite(yfix)
+      temp2 <- rle(yfix[keep])$lengths
       if(length(temp2) > length(temp)) temp <- temp2
     }
 

@@ -1,8 +1,8 @@
 Package: ggkm
 Type: Package
 Title: Survival Plots for ggplot2
-Version: 0.4.0
-Date: 2016-08-03
+Version: 0.4.1
+Date: 2016-08-05
 Author: Michael C Sachs
 Maintainer: Michael C Sachs <sachsmc@gmail.com>
 Description: Plot Kaplan-Meier Curves using ggplot2.

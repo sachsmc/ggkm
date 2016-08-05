@@ -79,9 +79,6 @@ Tranformations
     ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km(trans = "cloglog") + 
       geom_kmticks(trans = "cloglog") + ylab("Complementary Log-Log")
 
-    ## Warning: Computation failed in `stat_km()`:
-    ## arguments imply differing number of rows: 198, 200, 199
-
 ![](README_files/figure-markdown_strict/unnamed-chunk-4-3.png)
 
 Acknowledgements

@@ -37,8 +37,8 @@ sf3 <- survfit(Surv(time, ifelse(status == 2, 1, 0)) ~ as.factor(ph.ecog), data 
 
 
 
-s1 <- dostep(x = c(1, 2, 3, 4, 5, 6 ,7, 8, 9, 10), y = c(1, .8, .8, .6, .6, .5, .5, .4, .3, .2))
-s2 <- dostep(x = c(1:12), y = c(1, 1, .9, .8, .8, .7, .7, .6, .6, .6, .6, .5))
+s1 <- dostep(x = c(1, 2, 3, 4, 5, 6 ,7, 8, 9, 10), y = rev(c(1, .8, .8, .6, .6, .5, .5, .4, .3, .2)))
+s2 <- dostep(x = c(1:12), y = rev(c(1, 1, .9, .8, .8, .7, .7, .6, .6, .6, .6, .5)))
 
 plot(s2, ylim = c(0, 1), type = 'b')
 lines(s1, type = 'b')

@@ -51,7 +51,7 @@ ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "event") +
 
 ## proportional hazards -> parallel lines on cloglog scale
 ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km(trans = "cloglog") + 
-  geom_kmticks(trans = "cloglog") + ylab("Complementary Log-Log")
+  geom_kmticks(trans = "cloglog") + ylab("Complementary Log-Log") + scale_x_log10()
 
 ```
 

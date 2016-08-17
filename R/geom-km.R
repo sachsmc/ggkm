@@ -31,6 +31,9 @@ GeomKm <- ggplot2::ggproto("GeomKm", Geom,
 )
 
 
+#' @export
+#' @rdname geom_kmticks
+
 GeomKmticks <- ggplot2::ggproto("GeomKmticks", Geom,
 
                        draw_group = function(data, scales, coordinates, ...) {

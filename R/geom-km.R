@@ -7,7 +7,7 @@
 #' @rdname geom_km
 
 
-GeomKm <- ggproto("GeomKm", Geom,
+GeomKm <- ggplot2::ggproto("GeomKm", Geom,
 
                   draw_group = function(data, scales, coordinates, ...) {
 
@@ -23,14 +23,15 @@ GeomKm <- ggproto("GeomKm", Geom,
                   },
 
                   required_aes = c("x", "y"),
-                  default_aes = aes(colour="black", fill="grey60", size=.75, linetype=1, weight=1, alpha=0.4, direction = "hv"),
+                  default_aes = ggplot2::aes(colour="black", fill="grey60", size=.75,
+                                    linetype=1, weight=1, alpha=0.4, direction = "hv"),
 
                   draw_key = draw_key_smooth
 
 )
 
 
-GeomKmticks <- ggproto("GeomKmticks", Geom,
+GeomKmticks <- ggplot2::ggproto("GeomKmticks", Geom,
 
                        draw_group = function(data, scales, coordinates, ...) {
 
@@ -44,7 +45,7 @@ GeomKmticks <- ggproto("GeomKmticks", Geom,
                          grid::pointsGrob(
                            coordsp$x, coordsp$y,
                            pch = coordsp$shape,
-                           size = unit(coordsp$size, "char"),
+                           size = grid::unit(coordsp$size, "char"),
                            gp = grid::gpar(
                              col = coordsp$colour,
                              fill = coordsp$fill,
@@ -57,7 +58,7 @@ GeomKmticks <- ggproto("GeomKmticks", Geom,
 
                        required_aes = c("x", "y"),
                        non_missing_aes = c("size", "shape"),
-                       default_aes = aes(
+                       default_aes = ggplot2::aes(
                          shape = 3, colour = "black", size = .75,
                          alpha = 1, stroke = 0.5, fill = "black"
                        ),
@@ -88,12 +89,12 @@ GeomKmticks <- ggproto("GeomKmticks", Geom,
 #' @examples
 #' sex <- rbinom(250, 1, .5)
 #' df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
-#' ggplot(df, aes(x = time, status = status, color = factor(sex))) + geom_km()
+#' ggplot(df, aes(time = time, status = status, color = factor(sex))) + geom_km()
 
 geom_km <- function(mapping = NULL, data = NULL, stat = "km",
                      position = "identity", show.legend = NA,
                      inherit.aes = TRUE, na.rm = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     geom = GeomKm, mapping = mapping, data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
@@ -125,12 +126,12 @@ geom_km <- function(mapping = NULL, data = NULL, stat = "km",
 #' @examples
 #' sex <- rbinom(250, 1, .5)
 #' df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
-#' ggplot(df, aes(x = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
+#' ggplot(df, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
 
 geom_kmticks <- function(mapping = NULL, data = NULL, stat = "kmticks",
                     position = "identity", show.legend = NA,
                     inherit.aes = TRUE, na.rm = TRUE, ...) {
-  layer(
+  ggplot2::layer(
     geom = GeomKmticks, mapping = mapping, data = data, stat = stat,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)

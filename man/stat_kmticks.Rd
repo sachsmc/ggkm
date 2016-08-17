@@ -10,7 +10,7 @@
 StatKmticks
 
 stat_kmticks(mapping = NULL, data = NULL, geom = "kmticks",
-  position = "identity", show.legend = NA, inherit.aes = TRUE, ...)
+  position = "identity", show.legend = NA, inherit.aes = TRUE, trans, ...)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
@@ -46,11 +46,11 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link{borders}}.}
 
-\item{...}{Other arguments passed to \code{survival::survfit.formula}}
-
 \item{trans}{Transformation to apply to the survival probabilities. Defaults
 to "identity". Other options include "event", "cumhaz", "cloglog", or
 define your own using \link{trans_new}.}
+
+\item{...}{Other arguments passed to \code{survival::survfit.formula}}
 }
 \value{
 a data.frame with additional columns: \item{x}{x in data}
@@ -84,7 +84,7 @@ are in bold):
 \examples{
 sex <- rbinom(250, 1, .5)
 df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
-ggplot(df, aes(time, status = status, color = factor(sex))) +
+ggplot(df, aes(time = time, status = status, color = factor(sex))) +
  stat_km() + stat_kmticks()
 
 }

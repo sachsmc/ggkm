@@ -10,7 +10,10 @@
 StatKm
 
 stat_km(mapping = NULL, data = NULL, geom = "km", position = "identity",
-  show.legend = NA, inherit.aes = TRUE, ...)
+  show.legend = NA, inherit.aes = TRUE, se = TRUE, trans = "identity",
+  firstx = 0, firsty = 1, type = "kaplan-meier", error = "tsiatis",
+  conf.type = "log", conf.lower = "usual", start.time = 0,
+  conf.int = 0.95)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
@@ -46,8 +49,6 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link{borders}}.}
 
-\item{...}{Other arguments passed to \code{survival::survfit.formula}}
-
 \item{se}{display confidence interval around KM curve? (TRUE by default, use
 \code{conf.int} to control significance level which is 0.95 by default)}
 
@@ -55,8 +56,10 @@ the default plot specification, e.g. \code{\link{borders}}.}
 to "identity". Other options include "event", "cumhaz", "cloglog", or
 define your own using \link{trans_new}.}
 
-\item{xstart, ystart}{the starting point for the survival curves. By default,
+\item{firstx, firsty}{the starting point for the survival curves. By default,
 the plot program obeys tradition by having the plot start at (0,1).}
+
+\item{...}{Other arguments passed to \code{survival::survfit.formula}}
 }
 \value{
 a data.frame with additional columns: \item{x}{x in data}
@@ -90,12 +93,12 @@ are in bold):
 \examples{
 sex <- rbinom(250, 1, .5)
 df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
-ggplot(df, aes(time, status = status, color = factor(sex))) +
+ggplot(df, aes(time = time, status = status, color = factor(sex))) +
  stat_km()
 
 ## Examples illustrating the options passed to survfit.formula
 
-p1 <- ggplot(df, aes(x = Surv(time, status)))
+p1 <- ggplot(df, aes(time = time, status = status))
 p1 + stat_km(conf.int = .99)
 p1 + stat_km(trans = "cumhaz")
 # cloglog plots also log transform the time axis
@@ -103,7 +106,7 @@ p1 + stat_km(trans = "cloglog") + scale_x_log10()
 p1 + stat_km(type = "fleming-harrington")
 p1 + stat_km(error = "tsiatis")
 p1 + stat_km(conf.type = "log-log")
-p1 + stat_km(start.time = 200)
+p1 + stat_km(start.time = 5)
 
 }
 \keyword{datasets}

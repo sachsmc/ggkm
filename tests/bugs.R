@@ -30,11 +30,17 @@ ggplot(lung, aes(y = time, x = age, color = as.factor(ph.ecog))) + geom_point()
 
 ggplot(lung, aes(time = time, status = ifelse(
   status == 2,1,0),col=as.factor(ph.ecog ),fill=as.factor(ph.ecog ))) +
-  geom_km(fill="transparent")+ stat_km(geom="ribbon",alpha=0.1,color="black")+ # this to make the legend include the fill
+  geom_km(fill="transparent")+ stat_kmband(geom="ribbon")+ # this to make the legend include the fill
   geom_kmticks()
 
 sf3 <- survfit(Surv(time, ifelse(status == 2, 1, 0)) ~ as.factor(ph.ecog), data = lung)
 
+df <- read.csv("~/../Downloads/df.csv")
+p1<-  ggplot(df, aes(time=time, status = status, color = factor(sex)))
+p1 +stat_km() + geom_kmband()
+p1 + stat_km(trans = "cumhaz") # works no error
+p1 + stat_km(trans = "cumhaz")+ scale_x_log10()# works
+p1 + stat_km(trans = "cumhaz")+ geom_kmband(trans = "cumhaz") + scale_y_log10()
 
 
 s1 <- dostep(x = c(1, 2, 3, 4, 5, 6 ,7, 8, 9, 10), y = rev(c(1, .8, .8, .6, .6, .5, .5, .4, .3, .2)))

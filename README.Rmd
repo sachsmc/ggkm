@@ -32,26 +32,27 @@ ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks()
 ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmticks(shape = 1)
 ``` 
 
-## Different style ribbons
+## Adding confidence bands
 ```{r}
-ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
-ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + geom_km() + geom_kmticks()
+ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmband()
+ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + geom_km() + geom_kmband()
 
-ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + 
-  geom_km(alpha = .1) + stat_km(geom = "ribbon", alpha = .1, color = "black") + geom_kmticks()
+ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmband(conf.int = .99)
+
+ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmband(conf.int = .99) + facet_wrap(~ sex, labeller = "label_both")
 ```
 
 ## Tranformations
 
 ```{r}
 ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "cumhaz") + 
-  geom_kmticks(trans = "cumhaz") + ylab("Cumulative hazard")
+  geom_kmticks(trans = "cumhaz") + geom_kmband(trans = "cumhaz") + ylab("Cumulative hazard")
 ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "event") + 
-  geom_kmticks(trans = "event") + ylab("Cumulative Events (CDF)")
+  geom_kmticks(trans = "event") + geom_kmband(trans = "event") + ylab("Cumulative Events (CDF)")
 
 ## proportional hazards -> parallel lines on cloglog scale
 ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km(trans = "cloglog") + 
-  geom_kmticks(trans = "cloglog") + ylab("Complementary Log-Log") + scale_x_log10()
+  geom_kmticks(trans = "cloglog") + geom_kmband(trans = "cloglog") + ylab("Complementary Log-Log") + scale_x_log10()
 
 ```
 
@@ -64,7 +65,7 @@ This package would not be possible without the following:
 # License
 The MIT License (MIT)
 
-Copyright (c) 2015 Michael C Sachs
+Copyright (c) 2016 Michael C Sachs
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

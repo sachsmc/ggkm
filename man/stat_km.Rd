@@ -11,9 +11,7 @@ StatKm
 
 stat_km(mapping = NULL, data = NULL, geom = "km", position = "identity",
   show.legend = NA, inherit.aes = TRUE, se = TRUE, trans = "identity",
-  firstx = 0, firsty = 1, type = "kaplan-meier", error = "tsiatis",
-  conf.type = "log", conf.lower = "usual", start.time = 0,
-  conf.int = 0.95)
+  firstx = 0, firsty = 1, type = "kaplan-meier", start.time = 0)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
@@ -49,9 +47,6 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link{borders}}.}
 
-\item{se}{display confidence interval around KM curve? (TRUE by default, use
-\code{conf.int} to control significance level which is 0.95 by default)}
-
 \item{trans}{Transformation to apply to the survival probabilities. Defaults
 to "identity". Other options include "event", "cumhaz", "cloglog", or
 define your own using \link{trans_new}.}
@@ -63,19 +58,16 @@ the plot program obeys tradition by having the plot start at (0,1).}
 }
 \value{
 a data.frame with additional columns: \item{x}{x in data}
-  \item{y}{Kaplan-Meier Survival Estimate at x} \item{ymin}{Lower confidence
-  limit of KM curve, if \code{se = TRUE}} \item{ymax}{Upper confidence limit
-  of KM curve, if \code{se = FALSE}}
+  \item{y}{Kaplan-Meier Survival Estimate at x}
 }
 \description{
 Adds a Kaplan Meier Estimate of Survival
 }
 \details{
-This stat is for computing the Kaplan-Meier survival estimate for
+This stat is for computing the confidence intervals for the Kaplan-Meier survival estimate for
 right-censored data. It requires the aesthetic mapping \code{x} for the
 observation times and \code{status} which indicates the event status,
-normally 0=alive, 1=dead. Other choices are TRUE/FALSE (TRUE = death) or 1/2
-(2=death).
+0=alive, 1=dead or 1/2 (2=death). Logical status is not supported.
 }
 \section{Aesthetics}{
 
@@ -99,13 +91,11 @@ ggplot(df, aes(time = time, status = status, color = factor(sex))) +
 ## Examples illustrating the options passed to survfit.formula
 
 p1 <- ggplot(df, aes(time = time, status = status))
-p1 + stat_km(conf.int = .99)
+p1 + stat_km()
 p1 + stat_km(trans = "cumhaz")
 # cloglog plots also log transform the time axis
 p1 + stat_km(trans = "cloglog") + scale_x_log10()
 p1 + stat_km(type = "fleming-harrington")
-p1 + stat_km(error = "tsiatis")
-p1 + stat_km(conf.type = "log-log")
 p1 + stat_km(start.time = 5)
 
 }

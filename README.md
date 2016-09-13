@@ -46,38 +46,41 @@ times
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-2-2.png)
 
-Different style ribbons
+Adding confidence bands
 -----------------------
 
-    ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmticks()
+    ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmband()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-3-1.png)
 
-    ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + geom_km() + geom_kmticks()
+    ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + geom_km() + geom_kmband()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-3-2.png)
 
-    ggplot(lung, aes(time = time, status = status, fill = factor(sex), color = factor(sex))) + 
-      geom_km(alpha = .1) + stat_km(geom = "ribbon", alpha = .1, color = "black") + geom_kmticks()
+    ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km() + geom_kmband(conf.int = .99)
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-3-3.png)
+
+    ggplot(lung, aes(time = time, status = status)) + geom_km() + geom_kmband(conf.int = .99) + facet_wrap(~ sex, labeller = "label_both")
+
+![](README_files/figure-markdown_strict/unnamed-chunk-3-4.png)
 
 Tranformations
 --------------
 
     ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "cumhaz") + 
-      geom_kmticks(trans = "cumhaz") + ylab("Cumulative hazard")
+      geom_kmticks(trans = "cumhaz") + geom_kmband(trans = "cumhaz") + ylab("Cumulative hazard")
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-4-1.png)
 
     ggplot(lung, aes(time = time, status = status)) + geom_km(trans = "event") + 
-      geom_kmticks(trans = "event") + ylab("Cumulative Events (CDF)")
+      geom_kmticks(trans = "event") + geom_kmband(trans = "event") + ylab("Cumulative Events (CDF)")
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-4-2.png)
 
     ## proportional hazards -> parallel lines on cloglog scale
     ggplot(lung, aes(time = time, status = status, color = factor(sex))) + geom_km(trans = "cloglog") + 
-      geom_kmticks(trans = "cloglog") + ylab("Complementary Log-Log")
+      geom_kmticks(trans = "cloglog") + geom_kmband(trans = "cloglog") + ylab("Complementary Log-Log") + scale_x_log10()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-4-3.png)
 
@@ -93,7 +96,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Michael C Sachs
+Copyright (c) 2016 Michael C Sachs
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the

@@ -18,9 +18,9 @@ GeomKm <- ggplot2::ggproto("GeomKm", Geom,
 
                   required_aes = c("x", "y"),
                   default_aes = ggplot2::aes(colour="black", fill="grey60", size=.75,
-                                    linetype=1, weight=1, alpha=0.4, direction = "hv"),
-
+                                    linetype=1, weight=1, alpha = 1),
                   draw_key = draw_key_path
+
 
 )
 

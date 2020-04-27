@@ -5,32 +5,43 @@
 \alias{StatKmticks}
 \alias{stat_kmticks}
 \title{Compute locations for tick marks}
-\format{An object of class \code{StatKmticks} (inherits from \code{Stat}, \code{ggproto}) of length 4.}
+\format{
+An object of class \code{StatKmticks} (inherits from \code{Stat}, \code{ggproto}, \code{gg}) of length 4.
+}
 \usage{
 StatKmticks
 
-stat_kmticks(mapping = NULL, data = NULL, geom = "kmticks",
-  position = "identity", show.legend = NA, inherit.aes = TRUE, trans, ...)
+stat_kmticks(
+  mapping = NULL,
+  data = NULL,
+  geom = "kmticks",
+  position = "identity",
+  show.legend = NA,
+  inherit.aes = TRUE,
+  trans,
+  ...
+)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
-\code{\link{aes_}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
+\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
 \item{data}{The data to be displayed in this layer. There are three
-   options:
+options:
 
-   If \code{NULL}, the default, the data is inherited from the plot
-   data as specified in the call to \code{\link{ggplot}}.
+If \code{NULL}, the default, the data is inherited from the plot
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
 
-   A \code{data.frame}, or other object, will override the plot
-   data. All objects will be fortified to produce a data frame. See
-   \code{\link{fortify}} for which variables will be created.
+A \code{data.frame}, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
 
-   A \code{function} will be called with a single argument,
-   the plot data. The return value must be a \code{data.frame.}, and
-   will be used as the layer data.}
+A \code{function} will be called with a single argument,
+the plot data. The return value must be a \code{data.frame}, and
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{geom}{The geometric object to use display the data}
 
@@ -39,12 +50,14 @@ a call to a position adjustment function.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
-\code{FALSE} never includes, and \code{TRUE} always includes.}
+\code{FALSE} never includes, and \code{TRUE} always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link{borders}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
 \item{trans}{Transformation to apply to the survival probabilities. Defaults
 to "identity". Other options include "event", "cumhaz", "cloglog", or
@@ -58,8 +71,6 @@ a data.frame with additional columns: \item{x}{x in data}
 }
 \description{
 Tick marks are plotted where there are censoring times that are also not event times
-
-Adds tick marks to a Kaplan Meier Estimate of Survival
 }
 \details{
 This stat is for computing the tick marks for a Kaplan-Meier survival estimate for
@@ -83,6 +94,7 @@ are in bold):
   \item \code{size}
 }
 }
+
 \examples{
 sex <- rbinom(250, 1, .5)
 df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
@@ -94,4 +106,3 @@ ggplot(df, aes(time = time, status = status, color = factor(sex))) +
 \link{stat_km}
 }
 \keyword{datasets}
-

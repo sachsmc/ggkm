@@ -15,4 +15,4 @@ Depends:
     scales
 Imports:
     grid
-RoxygenNote: 5.0.1
+RoxygenNote: 7.1.0

@@ -5,33 +5,43 @@
 \alias{GeomKmband}
 \alias{geom_kmband}
 \title{Display Kaplan Meier Curve}
-\format{An object of class \code{GeomKmband} (inherits from \code{Geom}, \code{ggproto}) of length 5.}
+\format{
+An object of class \code{GeomKmband} (inherits from \code{Geom}, \code{ggproto}, \code{gg}) of length 5.
+}
 \usage{
 GeomKmband
 
-geom_kmband(mapping = NULL, data = NULL, stat = "kmband",
-  position = "identity", show.legend = NA, inherit.aes = TRUE,
-  na.rm = TRUE, ...)
+geom_kmband(
+  mapping = NULL,
+  data = NULL,
+  stat = "kmband",
+  position = "identity",
+  show.legend = NA,
+  inherit.aes = TRUE,
+  na.rm = TRUE,
+  ...
+)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
-\code{\link{aes_}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
+\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
 \item{data}{The data to be displayed in this layer. There are three
-   options:
+options:
 
-   If \code{NULL}, the default, the data is inherited from the plot
-   data as specified in the call to \code{\link{ggplot}}.
+If \code{NULL}, the default, the data is inherited from the plot
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
 
-   A \code{data.frame}, or other object, will override the plot
-   data. All objects will be fortified to produce a data frame. See
-   \code{\link{fortify}} for which variables will be created.
+A \code{data.frame}, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
 
-   A \code{function} will be called with a single argument,
-   the plot data. The return value must be a \code{data.frame.}, and
-   will be used as the layer data.}
+A \code{function} will be called with a single argument,
+the plot data. The return value must be a \code{data.frame}, and
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
@@ -41,25 +51,25 @@ a call to a position adjustment function.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
-\code{FALSE} never includes, and \code{TRUE} always includes.}
+\code{FALSE} never includes, and \code{TRUE} always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link{borders}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
-\item{na.rm}{If \code{FALSE} (the default), removes missing values with
-a warning.  If \code{TRUE} silently removes missing values.}
+\item{na.rm}{If \code{FALSE}, the default, missing values are removed with
+a warning. If \code{TRUE}, missing values are silently removed.}
 
-\item{...}{other arguments passed on to \code{\link{layer}}. These are
+\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
 often aesthetics, used to set an aesthetic to a fixed value, like
-\code{color = "red"} or \code{size = 3}. They may also be parameters
+\code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 }
 \description{
 Kaplan Meier Curve
-
-Add confidence bands to a Kaplan-Meier survival curve
 }
 \section{Aesthetics}{
 
@@ -75,6 +85,7 @@ are in bold):
   \item \code{size}
 }
 }
+
 \examples{
 sex <- rbinom(250, 1, .5)
 df <- data.frame(time = exp(rnorm(250, mean = sex)), status = rbinom(250, 1, .75), sex = sex)
@@ -85,4 +96,3 @@ The default stat for this geom is \code{\link{stat_kmband}} see
   that documentation for more options to control the underlying statistical transformation.
 }
 \keyword{datasets}
-

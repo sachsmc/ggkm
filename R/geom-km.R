@@ -61,38 +61,38 @@ GeomKmband <- ggplot2::ggproto("GeomKmband", Geom,
 #' @rdname geom_kmticks
 
 GeomKmticks <- ggplot2::ggproto("GeomKmticks", Geom,
-
-                       draw_group = function(data, scales, coordinates, ...) {
-
-                         showpoints <- data$n.censor > 0 & data$n.event == 0
-
-                         coordsp <- coordinates$transform(data, scales)[showpoints, , drop = FALSE]
-
-                         if(nrow(coordsp) == 0){
-                           grid::nullGrob()
-                         } else {
-                         grid::pointsGrob(
-                           coordsp$x, coordsp$y,
-                           pch = coordsp$shape,
-                           size = grid::unit(coordsp$size, "char"),
-                           gp = grid::gpar(
-                             col = coordsp$colour,
-                             fill = coordsp$fill,
-                             alpha = coordsp$alpha
-                           )
-                         )
-                         }
-
-                       },
-
-                       required_aes = c("x", "y"),
-                       non_missing_aes = c("size", "shape"),
-                       default_aes = ggplot2::aes(
-                         shape = 3, colour = "black", size = .75,
-                         alpha = 1, stroke = 0.5, fill = "black"
-                       ),
-                       draw_key = draw_key_point
-
+                                
+                                draw_group = function(data, scales, coordinates, ...) {
+                                  
+                                  showpoints <- data$n.censor > 0 & data$n.event == 0
+                                  
+                                  coordsp <- coordinates$transform(data, scales)[showpoints, , drop = FALSE]
+                                  
+                                  if(nrow(coordsp) == 0){
+                                    grid::nullGrob()
+                                  } else {
+                                    grid::pointsGrob(
+                                      coordsp$x, coordsp$y,
+                                      pch = coordsp$shape,
+                                      gp = grid::gpar(
+                                        col = coordsp$colour,
+                                        fill = coordsp$fill,
+                                        alpha = coordsp$alpha,
+                                        fontsize = coordsp$size *.pt
+                                      )
+                                    )
+                                  }
+                                  
+                                },
+                                
+                                required_aes = c("x", "y"),
+                                non_missing_aes = c("size", "shape"),
+                                default_aes = ggplot2::aes(
+                                  shape = 3, colour = "black", size = 3,
+                                  alpha = 1, stroke = 0.5, fill = "black"
+                                ),
+                                draw_key = draw_key_point
+                                
 )
 
 

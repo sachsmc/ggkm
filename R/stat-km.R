@@ -35,7 +35,8 @@ StatKm <- ggplot2::ggproto("StatKm", Stat,
   },
 
   default_aes = ggplot2::aes(y = ..survival.., x = ..time..),
-  required_aes = c("time", "status")
+  required_aes = c("time", "status"),
+  dropped_aes = c("time", "status")
 
 
 )
@@ -97,7 +98,8 @@ StatKmband <- ggplot2::ggproto("StatKmband", Stat,
                                },
 
                                default_aes = ggplot2::aes(ymin = ..lower.., ymax = ..upper.., x = ..time..),
-                               required_aes = c("time", "status")
+                               required_aes = c("time", "status"),
+                               dropped_aes = c("time", "status")
 
 
 )
@@ -271,7 +273,8 @@ StatKmticks <- ggplot2::ggproto("StatKmticks", Stat,
                   },
 
                   default_aes = aes(y = ..survival.., x = ..time..),
-                  required_aes = c("time", "status")
+                  required_aes = c("time", "status"),
+                  dropped_aes = c("time", "status")
 
 
 )
